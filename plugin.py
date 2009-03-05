@@ -99,8 +99,8 @@ class Lolz(callbacks.PluginRegexp):
         irc.reply("%s %s and I!" % (match.group(1).capitalize(), match.group(2)), prefixNick=False)
 
     def hillarySnarfer(self, irc, msg, match):
-    	r"[ ]+hillary[ ]*|[ ]*hillary[ ]+|^hillary$"
-	    channel = msg.args[0]
+        r"[ ]+hillary[ ]*|[ ]*hillary[ ]+|^hillary$"
+        channel = msg.args[0]
         if not irc.isChannel(channel):
             return
         if random() > 0.25:
@@ -108,32 +108,32 @@ class Lolz(callbacks.PluginRegexp):
         irc.reply("Don't let the door hit your ass on the way out, Hillary.  Leave that to Bill.", prefixNick=False)
 
     def fuckYouSnarfer(self, irc, msg, match):
-    	r"fuck you, tesla|fuck you tesla"
-	    channel = msg.args[0]
+        r"fuck you, tesla|fuck you tesla"
+        channel = msg.args[0]
         if not irc.isChannel(channel):
             return
 
         irc.reply("Fuck me?! FUCK YOU!", prefixNick=True)
 
     def suchADickSnarfer(self, irc, msg, match):
-    	r"you( are|[']re) such a (dick|jerk|ass)[, ]+tesla"
-	    channel = msg.args[0]
+        r"you( are|[']re) such a (dick|jerk|ass)[, ]+tesla"
+        channel = msg.args[0]
         if not irc.isChannel(channel):
             return
 
         irc.reply("Heh... yeah.", prefixNick=False)
 
     def dayManSnarfer(self, irc, msg, match):
-    	r"^day[ ]*man[!]*|^fighter of the night[ ]*man[!]*|^champion of the sun[!]*"
-	    channel = msg.args[0]
+        r"^day[ ]*man[!]*|^fighter of the night[ ]*man[!]*|^champion of the sun[!]*"
+        channel = msg.args[0]
         if not irc.isChannel(channel):
             return
 
         irc.reply("UuuwaaAAaaaAAAaaa!", prefixNick=False)
 
     def masterOfKarateSnarfer(self, irc, msg, match):
-    	r"^you're a master of karate[!]*"
-	    channel = msg.args[0]
+        r"^you're a master of karate[!]*"
+        channel = msg.args[0]
         if not irc.isChannel(channel):
             return
 
@@ -141,7 +141,7 @@ class Lolz(callbacks.PluginRegexp):
         irc.reply("For everyone!", prefixNick=False)
 
     def calculatorSnarfer(self, irc, msg, match):
-    	r"what('s| is) [0-9]+[ ]*[+\-*/][ ]*([0-9]+|the number of horns a unicorn has)[ =?]*"
+        r"what('s| is) [0-9]+[ ]*[+\-*/][ ]*([0-9]+|the number of horns a unicorn has)[ =?]*"
         channel = msg.args[0]
         if not irc.isChannel(channel):
             return
@@ -151,8 +151,8 @@ class Lolz(callbacks.PluginRegexp):
         irc.reply("Answer: Your mom.", prefixNick=False)
 
     def dagSnarfer(self, irc, msg, match):
-    	r"^dag| dag[!?]*$| dag |david alan grier"
-	    channel = msg.args[0]
+        r"^dag| dag[!?]*$| dag |david alan grier"
+        channel = msg.args[0]
         if not irc.isChannel(channel):
             return
 
@@ -162,16 +162,16 @@ class Lolz(callbacks.PluginRegexp):
         irc.reply("*zzzzz*", prefixNick=False)
 
     def letTheRecordSnarfer(self, irc, msg, match):
-    	r"^Let the record show that "
-	    channel = msg.args[0]
+        r"^Let the record show that "
+        channel = msg.args[0]
         if not irc.isChannel(channel):
             return
 
         irc.reply("The record has been updated.", prefixNick=False)
 
     def failSnarfer(self, irc, msg, match):
-    	r"^ /win [0-9]+$|^win [0-9]+$"
-	    channel = msg.args[0]
+        r"^ /win [0-9]+$|^win [0-9]+$"
+        channel = msg.args[0]
         if not irc.isChannel(channel):
             return
 
