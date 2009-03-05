@@ -49,11 +49,11 @@ class Lolz(callbacks.PluginRegexp):
     def sentence(self, irc, msg, args):
     	"""sentence users for infractions of decency"""
         channel = msg.args[0]
-	    if not irc.isChannel(channel):
+        if not irc.isChannel(channel):
 	        return
-	    if "freerice" in [ arg.lower() for arg in args[2:] ]:
+        if "freerice" in [ arg.lower() for arg in args[2:] ]:
 		    irc.reply("%s: You have been sentenced to earn %s grains on FreeRice <http://www.freerice.com/index.php?&s=English%%20Grammar>" % (args[0], args[2]), prefixNick=False)
-	    if set(["esr's", "questions"]).issubset(set([ arg.lower() for arg in args[2:] ])):
+        if set(["esr's", "questions"]).issubset(set([ arg.lower() for arg in args[2:] ])):
 		    irc.reply("%s: You have been sentenced to read ESR's Asking Smart Questions <http://www.catb.org/~esr/faqs/smart-questions.html>" % (args[0]), prefixNick=False)
 
     def lolzSnarfer(self, irc, msg, match):
@@ -64,14 +64,14 @@ class Lolz(callbacks.PluginRegexp):
         irc.reply("lolz", prefixNick=False)
 
     def brbSnarfer(self, irc, msg, match):
-    	r"([ ]+|^)brb[.!]*$"
+        r"([ ]+|^)brb[.!]*$"
         channel = msg.args[0]
         if not irc.isChannel(channel):
             return
         irc.reply("Good riddance.", prefixNick=False)
 
     def rightTeslaSnarfer(self, irc, msg, match):
-    	r"right[,]* tesla[?]*|isn[']*t it[,]* tesla[?]*"
+        r"right[,]* tesla[?]*|isn[']*t it[,]* tesla[?]*"
         channel = msg.args[0]
         if not irc.isChannel(channel):
             return
@@ -79,7 +79,7 @@ class Lolz(callbacks.PluginRegexp):
 
     def dreamSnarfer(self, irc, msg, match):
     	r"i had this dream |i had a dream | dream i had"
-        channel = msg.args[0]
+    	channel = msg.args[0]
         if not irc.isChannel(channel):
             return
         irc.reply("I had a dream where a hamburger was eating ME!", prefixNick=False)
@@ -142,7 +142,7 @@ class Lolz(callbacks.PluginRegexp):
 
     def calculatorSnarfer(self, irc, msg, match):
     	r"what('s| is) [0-9]+[ ]*[+\-*/][ ]*([0-9]+|the number of horns a unicorn has)[ =?]*"
-	    channel = msg.args[0]
+        channel = msg.args[0]
         if not irc.isChannel(channel):
             return
 
