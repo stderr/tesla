@@ -35,11 +35,12 @@ import supybot.ircutils as ircutils
 import supybot.callbacks as callbacks
 from random import random
 import re
-
+import urllib
+import BeautifulSoup
 
 class Lolz(callbacks.PluginRegexp):
     """Just lol."""
-    regexps = ['lolzSnarfer', 'brbSnarfer', 'rightTeslaSnarfer', 'dreamSnarfer', 'upYoursSnarfer', 'meAndMyXSnarfer', 'hillarySnarfer', 'fuckYouSnarfer', 'suchADickSnarfer', 'dayManSnarfer', 'masterOfKarateSnarfer', 'calculatorSnarfer', 'dagSnarfer', 'letTheRecordSnarfer', 'failSnarfer']
+    regexps = ['lolzSnarfer', 'brbSnarfer', 'rightTeslaSnarfer', 'dreamSnarfer', 'upYoursSnarfer', 'meAndMyXSnarfer', 'hillarySnarfer', 'fuckYouSnarfer', 'suchADickSnarfer', 'dayManSnarfer', 'masterOfKarateSnarfer', 'calculatorSnarfer', 'dagSnarfer', 'letTheRecordSnarfer', 'failSnarfer', 'urlTitleSnarfer']
 
     def lolz(self, irc, msg, args):
     	"""lolz"""
@@ -48,12 +49,12 @@ class Lolz(callbacks.PluginRegexp):
     def sentence(self, irc, msg, args):
     	"""sentence users for infractions of decency"""
         channel = msg.args[0]
-	if not irc.isChannel(channel):
-	    return
-	if "freerice" in [ arg.lower() for arg in args[2:] ]:
-		irc.reply("%s: You have been sentenced to earn %s grains on FreeRice <http://www.freerice.com/index.php?&s=English%%20Grammar>" % (args[0], args[2]), prefixNick=False)
-	if set(["esr's", "questions"]).issubset(set([ arg.lower() for arg in args[2:] ])):
-		irc.reply("%s: You have been sentenced to read ESR's Asking Smart Questions <http://www.catb.org/~esr/faqs/smart-questions.html>" % (args[0]), prefixNick=False)
+	    if not irc.isChannel(channel):
+	        return
+	    if "freerice" in [ arg.lower() for arg in args[2:] ]:
+		    irc.reply("%s: You have been sentenced to earn %s grains on FreeRice <http://www.freerice.com/index.php?&s=English%%20Grammar>" % (args[0], args[2]), prefixNick=False)
+	    if set(["esr's", "questions"]).issubset(set([ arg.lower() for arg in args[2:] ])):
+		    irc.reply("%s: You have been sentenced to read ESR's Asking Smart Questions <http://www.catb.org/~esr/faqs/smart-questions.html>" % (args[0]), prefixNick=False)
 
     def lolzSnarfer(self, irc, msg, match):
     	r"[ ]+lol[ ]*|[ ]*lol[ ]+|^lol$|^ehl oh ehl$"
@@ -99,7 +100,7 @@ class Lolz(callbacks.PluginRegexp):
 
     def hillarySnarfer(self, irc, msg, match):
     	r"[ ]+hillary[ ]*|[ ]*hillary[ ]+|^hillary$"
-	channel = msg.args[0]
+	    channel = msg.args[0]
         if not irc.isChannel(channel):
             return
         if random() > 0.25:
@@ -108,7 +109,7 @@ class Lolz(callbacks.PluginRegexp):
 
     def fuckYouSnarfer(self, irc, msg, match):
     	r"fuck you, tesla|fuck you tesla"
-	channel = msg.args[0]
+	    channel = msg.args[0]
         if not irc.isChannel(channel):
             return
 
@@ -116,7 +117,7 @@ class Lolz(callbacks.PluginRegexp):
 
     def suchADickSnarfer(self, irc, msg, match):
     	r"you( are|[']re) such a (dick|jerk|ass)[, ]+tesla"
-	channel = msg.args[0]
+	    channel = msg.args[0]
         if not irc.isChannel(channel):
             return
 
@@ -124,7 +125,7 @@ class Lolz(callbacks.PluginRegexp):
 
     def dayManSnarfer(self, irc, msg, match):
     	r"^day[ ]*man[!]*|^fighter of the night[ ]*man[!]*|^champion of the sun[!]*"
-	channel = msg.args[0]
+	    channel = msg.args[0]
         if not irc.isChannel(channel):
             return
 
@@ -132,7 +133,7 @@ class Lolz(callbacks.PluginRegexp):
 
     def masterOfKarateSnarfer(self, irc, msg, match):
     	r"^you're a master of karate[!]*"
-	channel = msg.args[0]
+	    channel = msg.args[0]
         if not irc.isChannel(channel):
             return
 
@@ -141,7 +142,7 @@ class Lolz(callbacks.PluginRegexp):
 
     def calculatorSnarfer(self, irc, msg, match):
     	r"what('s| is) [0-9]+[ ]*[+\-*/][ ]*([0-9]+|the number of horns a unicorn has)[ =?]*"
-	channel = msg.args[0]
+	    channel = msg.args[0]
         if not irc.isChannel(channel):
             return
 
@@ -151,7 +152,7 @@ class Lolz(callbacks.PluginRegexp):
 
     def dagSnarfer(self, irc, msg, match):
     	r"^dag| dag[!?]*$| dag |david alan grier"
-	channel = msg.args[0]
+	    channel = msg.args[0]
         if not irc.isChannel(channel):
             return
 
@@ -162,7 +163,7 @@ class Lolz(callbacks.PluginRegexp):
 
     def letTheRecordSnarfer(self, irc, msg, match):
     	r"^Let the record show that "
-	channel = msg.args[0]
+	    channel = msg.args[0]
         if not irc.isChannel(channel):
             return
 
@@ -170,12 +171,27 @@ class Lolz(callbacks.PluginRegexp):
 
     def failSnarfer(self, irc, msg, match):
     	r"^ /win [0-9]+$|^win [0-9]+$"
-	channel = msg.args[0]
+	    channel = msg.args[0]
         if not irc.isChannel(channel):
             return
 
         irc.reply("FAIL", prefixNick=False)
-
+        
+    def urlTitleSnarfer(self, irc, msg, match):
+        r"https?://([-\w\.]+)+(:\d+)?(/([\w/_\.]*(\?\S+)?)?)?"
+        channel = msg.args[0]
+        if not irc.isChannel(channel):
+            return
+        
+        try:
+            url = urllib.urlopen(match.group())
+        except IOError:
+            return
+            
+        title = BeautifulSoup.BeautifulSoup(url).title.string
+        
+        irc.reply("[ %s ]" % (title,), prefixNick=False)
+        
 Class = Lolz
 
 
