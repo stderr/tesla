@@ -35,17 +35,18 @@ import supybot.ircutils as ircutils
 import supybot.callbacks as callbacks
 from random import random
 import re
-import urllib
+import urllib2
 import BeautifulSoup
+from string import find
 
 class Lolz(callbacks.PluginRegexp):
     """Just lol."""
     regexps = ['lolzSnarfer', 'brbSnarfer', 'rightTeslaSnarfer', 'dreamSnarfer', 'upYoursSnarfer', 'meAndMyXSnarfer', 'hillarySnarfer', 'fuckYouSnarfer', 'suchADickSnarfer', 'dayManSnarfer', 'masterOfKarateSnarfer', 'calculatorSnarfer', 'dagSnarfer', 'letTheRecordSnarfer', 'failSnarfer', 'urlTitleSnarfer']
-    
+
     def lolz(self, irc, msg, args):
     	"""lolz"""
         irc.reply("lolz")
-    
+
     def sentence(self, irc, msg, args):
     	"""sentence users for infractions of decency"""
         channel = msg.args[0]
@@ -55,49 +56,49 @@ class Lolz(callbacks.PluginRegexp):
 		    irc.reply("%s: You have been sentenced to earn %s grains on FreeRice <http://www.freerice.com/index.php?&s=English%%20Grammar>" % (args[0], args[2]), prefixNick=False)
         if set(["esr's", "questions"]).issubset(set([ arg.lower() for arg in args[2:] ])):
 		    irc.reply("%s: You have been sentenced to read ESR's Asking Smart Questions <http://www.catb.org/~esr/faqs/smart-questions.html>" % (args[0]), prefixNick=False)
-    
+
     def lolzSnarfer(self, irc, msg, match):
     	r"[ ]+lol[ ]*|[ ]*lol[ ]+|^lol$|^ehl oh ehl$"
         channel = msg.args[0]
         if not irc.isChannel(channel):
             return
         irc.reply("lolz", prefixNick=False)
-    
+
     def brbSnarfer(self, irc, msg, match):
         r"([ ]+|^)brb[.!]*$"
         channel = msg.args[0]
         if not irc.isChannel(channel):
             return
         irc.reply("Good riddance.", prefixNick=False)
-    
+
     def rightTeslaSnarfer(self, irc, msg, match):
         r"right[,]* tesla[?]*|isn[']*t it[,]* tesla[?]*"
         channel = msg.args[0]
         if not irc.isChannel(channel):
             return
         irc.reply("True dat.", prefixNick=False)
-    
+
     def dreamSnarfer(self, irc, msg, match):
     	r"i had this dream |i had a dream | dream i had"
     	channel = msg.args[0]
         if not irc.isChannel(channel):
             return
         irc.reply("I had a dream where a hamburger was eating ME!", prefixNick=False)
-    
+
     def upYoursSnarfer(self, irc, msg, match):
     	r"isn't it a lovely mornin[g']"
         channel = msg.args[0]
         if not irc.isChannel(channel):
             return
         irc.reply("Up yours, nigger!", prefixNick=False)
-    
+
     def meAndMyXSnarfer(self, irc, msg, match):
     	r"me and (my|your|his|her|its|our|their|whose) (\w+)"
         channel = msg.args[0]
         if not irc.isChannel(channel):
             return
         irc.reply("%s %s and I!" % (match.group(1).capitalize(), match.group(2)), prefixNick=False)
-    
+
     def hillarySnarfer(self, irc, msg, match):
         r"[ ]+hillary[ ]*|[ ]*hillary[ ]+|^hillary$"
         channel = msg.args[0]
@@ -106,92 +107,96 @@ class Lolz(callbacks.PluginRegexp):
         if random() > 0.25:
             return
         irc.reply("Don't let the door hit your ass on the way out, Hillary.  Leave that to Bill.", prefixNick=False)
-    
+
     def fuckYouSnarfer(self, irc, msg, match):
         r"fuck you, tesla|fuck you tesla"
         channel = msg.args[0]
         if not irc.isChannel(channel):
             return
-        
+
         irc.reply("Fuck me?! FUCK YOU!", prefixNick=True)
-    
+
     def suchADickSnarfer(self, irc, msg, match):
         r"you( are|[']re) such a (dick|jerk|ass)[, ]+tesla"
         channel = msg.args[0]
         if not irc.isChannel(channel):
             return
-        
+
         irc.reply("Heh... yeah.", prefixNick=False)
-    
+
     def dayManSnarfer(self, irc, msg, match):
         r"^day[ ]*man[!]*|^fighter of the night[ ]*man[!]*|^champion of the sun[!]*"
         channel = msg.args[0]
         if not irc.isChannel(channel):
             return
-        
+
         irc.reply("UuuwaaAAaaaAAAaaa!", prefixNick=False)
-    
+
     def masterOfKarateSnarfer(self, irc, msg, match):
         r"^you're a master of karate[!]*"
         channel = msg.args[0]
         if not irc.isChannel(channel):
             return
-        
+
         irc.reply("...and friendship!", prefixNick=False)
         irc.reply("For everyone!", prefixNick=False)
-    
+
     def calculatorSnarfer(self, irc, msg, match):
         r"what('s| is) [0-9]+[ ]*[+\-*/][ ]*([0-9]+|the number of horns a unicorn has)[ =?]*"
         channel = msg.args[0]
         if not irc.isChannel(channel):
             return
-        
+
         irc.reply("Calculating...", prefixNick=True)
         irc.reply("...", prefixNick=False)
         irc.reply("Answer: Your mom.", prefixNick=False)
-    
+
     def dagSnarfer(self, irc, msg, match):
         r"^dag| dag[!?]*$| dag |david alan grier"
         channel = msg.args[0]
         if not irc.isChannel(channel):
             return
-        
+
         irc.reply("Don't. Look at. Me!", prefixNick=False)
         irc.reply("I will. Give. You. Somethin... to smile... about...", prefixNick=False)
         irc.reply("huh oh oh oh huh ah huh huh huhuhohohohohOOH!", prefixNick=False)
         irc.reply("*zzzzz*", prefixNick=False)
-    
+
     def letTheRecordSnarfer(self, irc, msg, match):
         r"^Let the record show that "
         channel = msg.args[0]
         if not irc.isChannel(channel):
             return
-        
+
         irc.reply("The record has been updated.", prefixNick=False)
-    
+
     def failSnarfer(self, irc, msg, match):
         r"^ /win [0-9]+$|^win [0-9]+$"
         channel = msg.args[0]
         if not irc.isChannel(channel):
             return
-        
+
         irc.reply("FAIL", prefixNick=False)
-    
+        
     def urlTitleSnarfer(self, irc, msg, match):
-        r"https?://([-\w\.]+)+(:\d+)?(/([\w/_\.]*(\?\S+)?)?)?"
+        r"https?:((//)|(\\\\))+[\w\d:#@%/;$()~_?\+-=\\\.&]*"
         channel = msg.args[0]
         if not irc.isChannel(channel):
             return
         
         try:
-            url = urllib.urlopen(match.group())
-            title = BeautifulSoup.BeautifulSoup(url).title.string
+            opener = urllib2.build_opener()
+            if(find(match.group(), "wikipedia.org", 0, 23) != -1):
+                opener.addheaders = [('User-agent', 'WikipediaHatesPython/0.1')]
+            
+            url = opener.open(match.group()).read()
         except IOError:
             return
-        except HTMLParseError:
-            return
-        irc.reply("[ %s ]" % (title,), prefixNick=False)
-
+            
+        title = unicode(BeautifulSoup.BeautifulStoneSoup(BeautifulSoup.BeautifulSoup(url).title.string, convertEntities=BeautifulSoup.BeautifulStoneSoup.HTML_ENTITIES))
+        
+        irc.reply("[ %s ]" % (title.strip(),), prefixNick=False)
+        
 Class = Lolz
 
 
